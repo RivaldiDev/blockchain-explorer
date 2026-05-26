@@ -496,9 +496,7 @@ export default function Home() {
               EthScan Lite
             </span>
             <span>·</span>
-            <span>Data from Etherscan API</span>
-            <span>·</span>
-            <span>Built with Next.js + shadcn/ui</span>
+            <span>© {new Date().getFullYear()}</span>
           </div>
           <a
             href="https://github.com/RivaldiDev"
