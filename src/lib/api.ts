@@ -1,14 +1,8 @@
-const ETHERSCAN_API = "https://api.etherscan.io/v2/api";
-const API_KEY = process.env.NEXT_PUBLIC_ETHERSCAN_API_KEY || "";
-
 function buildUrl(params: Record<string, string>): string {
-  const url = new URL(ETHERSCAN_API);
-  // V2 requires chainid
-  url.searchParams.set("chainid", "1");
+  const url = new URL("/api/etherscan", window.location.origin);
   for (const [key, val] of Object.entries(params)) {
     url.searchParams.set(key, val);
   }
-  if (API_KEY) url.searchParams.set("apikey", API_KEY);
   return url.toString();
 }
 
