@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Search, ExternalLink, Blocks } from "lucide-react";
+import { Search, ExternalLink } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -26,13 +26,12 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/[0.06] bg-[oklch(0.09_0.015_260/0.85)] backdrop-blur-xl">
+    <header className="sticky top-0 z-50 w-full border-b border-white/[0.08] bg-[#2b2d42]/90 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between gap-4">
           {/* Logo */}
           <div className="flex items-center gap-3 shrink-0">
             <div className="relative flex items-center justify-center w-9 h-9">
-              {/* Ethereum diamond icon */}
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -41,15 +40,17 @@ export function Header() {
               >
                 <path
                   d="M12 1.5L3 12.5L12 16.5L21 12.5L12 1.5Z"
-                  fill="oklch(0.78 0.15 195 / 0.3)"
-                  stroke="oklch(0.78 0.15 195)"
+                  fill="#f8f32b"
+                  fillOpacity="0.3"
+                  stroke="#f8f32b"
                   strokeWidth="1"
                   strokeLinejoin="round"
                 />
                 <path
                   d="M12 16.5L3 12.5L12 22.5L21 12.5L12 16.5Z"
-                  fill="oklch(0.78 0.15 195 / 0.15)"
-                  stroke="oklch(0.78 0.15 195)"
+                  fill="#f8f32b"
+                  fillOpacity="0.12"
+                  stroke="#f8f32b"
                   strokeWidth="1"
                   strokeLinejoin="round"
                 />
@@ -60,10 +61,10 @@ export function Header() {
                 className="text-lg font-bold tracking-tight"
                 style={{ fontFamily: "var(--font-space-grotesk)" }}
               >
-                <span className="text-[oklch(0.78_0.15_195)]">Eth</span>
-                <span className="text-foreground">Scan</span>
+                <span className="text-[#f8f32b]">Eth</span>
+                <span className="text-white">Scan</span>
               </h1>
-              <p className="text-[10px] text-muted-foreground -mt-0.5 tracking-wide uppercase">
+              <p className="text-[10px] text-[#8d99ae] -mt-0.5 tracking-wide uppercase">
                 Block Explorer
               </p>
             </div>
@@ -72,12 +73,12 @@ export function Header() {
           {/* Search */}
           <form onSubmit={handleSearch} className="flex-1 max-w-xl">
             <div className="relative group">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8d99ae] group-focus-within:text-[#f8f32b] transition-colors" />
               <Input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search by address, tx hash, block, or token"
-                className="pl-10 bg-white/[0.04] border-white/[0.08] focus:border-primary/50 focus:ring-primary/20 h-10 text-sm placeholder:text-muted-foreground/60"
+                className="pl-10 bg-white/[0.05] border-white/[0.1] focus:border-[#f8f32b]/50 focus:ring-[#f8f32b]/20 h-10 text-sm text-white placeholder:text-[#8d99ae]/60"
               />
             </div>
           </form>
@@ -88,7 +89,7 @@ export function Header() {
               variant="ghost"
               size="sm"
               asChild
-              className="hidden sm:flex text-muted-foreground hover:text-foreground"
+              className="hidden sm:flex text-[#8d99ae] hover:text-white"
             >
               <a
                 href="https://etherscan.io"
@@ -99,13 +100,13 @@ export function Header() {
                 Etherscan <ExternalLink className="h-3 w-3" />
               </a>
             </Button>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[oklch(0.72_0.17_155/0.1)] border border-[oklch(0.72_0.17_155/0.2)]">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#f8f32b]/10 border border-[#f8f32b]/20">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#f8f32b] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#f8f32b]"></span>
               </span>
               <span
-                className="text-xs font-medium text-emerald-400"
+                className="text-xs font-medium text-[#f8f32b]"
                 style={{ fontFamily: "var(--font-space-grotesk)" }}
               >
                 Mainnet

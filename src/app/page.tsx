@@ -30,8 +30,15 @@ import {
   Hash,
   Cpu,
   Layers,
-  ExternalLink,
 } from "lucide-react";
+
+/* ─── Palette ─── */
+const C = {
+  indigo: "#2b2d42",
+  lavender: "#8d99ae",
+  lemon: "#f8f32b",
+  white: "#ffffff",
+};
 
 function shortenAddr(addr: string): string {
   if (!addr) return "—";
@@ -69,25 +76,28 @@ interface StatCardProps {
 
 function StatCard({ label, value, icon, accent, loading }: StatCardProps) {
   return (
-    <Card className="glass border-white/[0.06] hover:border-white/[0.12] transition-all duration-300 group">
+    <Card className="glass border-white/[0.08] hover:border-[#f8f32b]/20 transition-all duration-300 group">
       <CardContent className="p-4 flex items-center gap-3">
         <div
-          className={`p-2.5 rounded-lg ${accent} bg-white/[0.04] group-hover:scale-105 transition-transform`}
+          className={`p-2.5 rounded-lg bg-white/[0.05] ${accent} group-hover:scale-105 transition-transform`}
         >
           {icon}
         </div>
         <div>
           <p
-            className="text-[10px] text-muted-foreground uppercase tracking-widest font-medium"
-            style={{ fontFamily: "var(--font-space-grotesk)" }}
+            className="text-[10px] uppercase tracking-widest font-medium"
+            style={{
+              fontFamily: "var(--font-space-grotesk)",
+              color: C.lavender,
+            }}
           >
             {label}
           </p>
           {loading ? (
-            <Loader2 className="h-5 w-5 animate-spin text-muted-foreground mt-1" />
+            <Loader2 className="h-5 w-5 animate-spin mt-1" style={{ color: C.lavender }} />
           ) : (
             <p
-              className="text-lg font-bold text-foreground"
+              className="text-lg font-bold text-white"
               style={{ fontFamily: "var(--font-space-grotesk)" }}
             >
               {value}
@@ -113,14 +123,14 @@ function ErrorBanner({ message, onRetry }: ErrorBannerProps) {
       exit={{ opacity: 0, y: -10 }}
       className="max-w-7xl mx-auto px-6 py-3"
     >
-      <div className="flex items-center justify-between gap-3 px-4 py-3 rounded-lg bg-rose/10 border border-rose/20">
+      <div className="flex items-center justify-between gap-3 px-4 py-3 rounded-lg bg-red-500/10 border border-red-500/20">
         <div className="flex items-center gap-2">
-          <AlertTriangle className="h-4 w-4 text-rose" />
-          <span className="text-sm text-rose">{message}</span>
+          <AlertTriangle className="h-4 w-4 text-red-400" />
+          <span className="text-sm text-red-300">{message}</span>
         </div>
         <button
           onClick={onRetry}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-rose hover:text-rose/80 bg-rose/10 rounded-md hover:bg-rose/20 transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 text-xs text-red-300 hover:text-red-200 bg-red-500/10 rounded-md hover:bg-red-500/20 transition-colors"
         >
           <RefreshCw className="h-3 w-3" />
           Retry
@@ -134,18 +144,19 @@ function ErrorBanner({ message, onRetry }: ErrorBannerProps) {
 function SectionHeader({
   icon,
   title,
-  accent,
 }: {
   icon: React.ReactNode;
   title: string;
-  accent: string;
 }) {
   return (
     <CardTitle
-      className="text-base flex items-center gap-2.5"
+      className="text-base flex items-center gap-2.5 text-white"
       style={{ fontFamily: "var(--font-space-grotesk)" }}
     >
-      <span className={`w-1 h-5 rounded-full ${accent}`} />
+      <span
+        className="w-1 h-5 rounded-full"
+        style={{ background: C.lemon }}
+      />
       {icon}
       {title}
     </CardTitle>
@@ -230,30 +241,30 @@ export default function Home() {
       label: "ETH Price",
       value: ethPrice,
       icon: <DollarSign className="h-5 w-5" />,
-      accent: "text-[oklch(0.78_0.15_195)]",
+      accent: "text-[#f8f32b]",
     },
     {
       label: "Latest Block",
       value: latestBlock ? "#" + latestBlock.toLocaleString() : "—",
       icon: <Box className="h-5 w-5" />,
-      accent: "text-[oklch(0.75_0.16_55)]",
+      accent: "text-[#8d99ae]",
     },
     {
       label: "Gas Price",
       value: gasOracle ? gasOracle.SafeGasPrice + " Gwei" : "—",
       icon: <Fuel className="h-5 w-5" />,
-      accent: "text-[oklch(0.72_0.17_155)]",
+      accent: "text-[#f8f32b]",
     },
     {
       label: "Network",
       value: "Ethereum Mainnet",
       icon: <Network className="h-5 w-5" />,
-      accent: "text-[oklch(0.68_0.14_290)]",
+      accent: "text-white",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen" style={{ background: C.indigo }}>
       <Header />
 
       <AnimatePresence>
@@ -280,21 +291,20 @@ export default function Home() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.2, duration: 0.4 }}
         >
-          <Card className="glass border-white/[0.06]">
+          <Card className="glass border-white/[0.08]">
             <CardHeader className="pb-3">
               <SectionHeader
-                icon={<Blocks className="h-4 w-4 text-muted-foreground" />}
+                icon={<Blocks className="h-4 w-4" style={{ color: C.lavender }} />}
                 title="Recent Blocks"
-                accent="bg-[oklch(0.78_0.15_195)]"
               />
             </CardHeader>
             <CardContent>
               {loading ? (
                 <div className="flex items-center justify-center py-10">
-                  <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                  <Loader2 className="h-6 w-6 animate-spin" style={{ color: C.lavender }} />
                 </div>
               ) : blocks.length === 0 ? (
-                <p className="text-sm text-muted-foreground text-center py-10">
+                <p className="text-sm text-center py-10" style={{ color: C.lavender }}>
                   Waiting for blocks…
                 </p>
               ) : (
@@ -302,21 +312,21 @@ export default function Home() {
                   {blocks.map((b) => (
                     <div
                       key={b.number}
-                      className="flex justify-between items-center py-3 border-b border-white/[0.04] last:border-0 hover:bg-white/[0.03] transition-colors rounded-sm px-2 -mx-2"
+                      className="flex justify-between items-center py-3 border-b border-white/[0.06] last:border-0 hover:bg-white/[0.04] transition-colors rounded-sm px-2 -mx-2"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="p-1.5 rounded-md bg-[oklch(0.78_0.15_195/0.08)]">
-                          <Box className="h-4 w-4 text-[oklch(0.78_0.15_195)]" />
+                        <div className="p-1.5 rounded-md bg-[#f8f32b]/10">
+                          <Box className="h-4 w-4" style={{ color: C.lemon }} />
                         </div>
                         <div>
                           <Badge
                             variant="outline"
-                            className="text-[oklch(0.78_0.15_195)] border-[oklch(0.78_0.15_195/0.2)] bg-[oklch(0.78_0.15_195/0.08)] text-xs font-mono"
+                            className="text-[#f8f32b] border-[#f8f32b]/20 bg-[#f8f32b]/8 text-xs font-mono"
                           >
                             {Number(b.number).toLocaleString()}
                           </Badge>
-                          <p className="text-xs text-muted-foreground mt-1">
-                            <span className="text-foreground/80 font-medium">
+                          <p className="text-xs mt-1" style={{ color: C.lavender }}>
+                            <span className="text-white/80 font-medium">
                               {b.txCount} txns
                             </span>{" "}
                             · {timeAgo(Number(b.timestamp))}
@@ -324,13 +334,13 @@ export default function Home() {
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs" style={{ color: C.lavender }}>
                           Miner{" "}
-                          <span className="text-foreground/70 font-mono text-[11px]">
+                          <span className="text-white/70 font-mono text-[11px]">
                             {b.miner}
                           </span>
                         </p>
-                        <p className="text-xs text-[oklch(0.72_0.17_155)] font-medium">
+                        <p className="text-xs text-[#f8f32b]/80 font-medium">
                           {Number(b.gasUsed).toLocaleString()} /{" "}
                           {Number(b.gasLimit).toLocaleString()}
                         </p>
@@ -349,23 +359,20 @@ export default function Home() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.25, duration: 0.4 }}
         >
-          <Card className="glass border-white/[0.06]">
+          <Card className="glass border-white/[0.08]">
             <CardHeader className="pb-3">
               <SectionHeader
-                icon={
-                  <ArrowRightLeft className="h-4 w-4 text-muted-foreground" />
-                }
+                icon={<ArrowRightLeft className="h-4 w-4" style={{ color: C.lavender }} />}
                 title="Recent Transactions"
-                accent="bg-[oklch(0.68_0.14_290)]"
               />
             </CardHeader>
             <CardContent>
               {loading ? (
                 <div className="flex items-center justify-center py-10">
-                  <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                  <Loader2 className="h-6 w-6 animate-spin" style={{ color: C.lavender }} />
                 </div>
               ) : txs.length === 0 ? (
-                <p className="text-sm text-muted-foreground text-center py-10">
+                <p className="text-sm text-center py-10" style={{ color: C.lavender }}>
                   Waiting for transactions…
                 </p>
               ) : (
@@ -373,23 +380,23 @@ export default function Home() {
                   {txs.map((t) => (
                     <div
                       key={t.hash}
-                      className="flex justify-between items-center py-3 border-b border-white/[0.04] last:border-0 hover:bg-white/[0.03] transition-colors rounded-sm px-2 -mx-2"
+                      className="flex justify-between items-center py-3 border-b border-white/[0.06] last:border-0 hover:bg-white/[0.04] transition-colors rounded-sm px-2 -mx-2"
                     >
                       <div className="min-w-0 flex-1">
-                        <p className="font-mono text-xs text-[oklch(0.78_0.15_195)] truncate">
+                        <p className="font-mono text-xs text-[#f8f32b] truncate">
                           {shortenAddr(t.hash)}
                         </p>
-                        <p className="text-[11px] text-muted-foreground mt-1 flex items-center gap-1">
-                          <span className="text-foreground/60">From</span>{" "}
+                        <p className="text-[11px] mt-1 flex items-center gap-1" style={{ color: C.lavender }}>
+                          <span className="text-white/50">From</span>{" "}
                           {shortenAddr(t.from)}{" "}
-                          <ArrowRightLeft className="h-3 w-3 inline text-muted-foreground/40" />{" "}
-                          <span className="text-foreground/60">To</span>{" "}
+                          <ArrowRightLeft className="h-3 w-3 inline text-white/20" />{" "}
+                          <span className="text-white/50">To</span>{" "}
                           {shortenAddr(t.to)}
                         </p>
                       </div>
                       <div className="text-right shrink-0 ml-3">
                         <p
-                          className="text-sm font-semibold"
+                          className="text-sm font-semibold text-white"
                           style={{ fontFamily: "var(--font-space-grotesk)" }}
                         >
                           {t.value}
@@ -398,8 +405,8 @@ export default function Home() {
                           variant="outline"
                           className={
                             t.isError === "0"
-                              ? "text-[oklch(0.72_0.17_155)] border-[oklch(0.72_0.17_155/0.2)] bg-[oklch(0.72_0.17_155/0.08)] text-[10px]"
-                              : "text-rose border-rose/20 bg-rose/8 text-[10px]"
+                              ? "text-[#f8f32b] border-[#f8f32b]/20 bg-[#f8f32b]/8 text-[10px]"
+                              : "text-red-400 border-red-400/20 bg-red-400/8 text-[10px]"
                           }
                         >
                           {t.isError === "0" ? "Success" : "Failed"}
@@ -421,12 +428,11 @@ export default function Home() {
         transition={{ delay: 0.35, duration: 0.4 }}
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4"
       >
-        <Card className="glass border-white/[0.06]">
+        <Card className="glass border-white/[0.08]">
           <CardHeader className="pb-3">
             <SectionHeader
-              icon={<Cpu className="h-4 w-4 text-muted-foreground" />}
+              icon={<Cpu className="h-4 w-4" style={{ color: C.lavender }} />}
               title="Network Health"
-              accent="bg-[oklch(0.72_0.17_155)]"
             />
           </CardHeader>
           <CardContent className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center py-4">
@@ -435,40 +441,42 @@ export default function Home() {
                 label: "Total Blocks",
                 value: latestBlock ? latestBlock.toLocaleString() : "—",
                 icon: <Layers className="h-5 w-5" />,
-                color: "text-[oklch(0.78_0.15_195)]",
+                color: C.lemon,
               },
               {
                 label: "Safe Gas",
                 value: gasOracle ? gasOracle.SafeGasPrice + " Gwei" : "—",
                 icon: <Fuel className="h-5 w-5" />,
-                color: "text-[oklch(0.72_0.17_155)]",
+                color: C.lavender,
               },
               {
                 label: "Fast Gas",
                 value: gasOracle ? gasOracle.FastGasPrice + " Gwei" : "—",
                 icon: <Hash className="h-5 w-5" />,
-                color: "text-[oklch(0.82_0.16_75)]",
+                color: C.lemon,
               },
               {
                 label: "Base Fee",
                 value: gasOracle ? gasOracle.suggestBaseFee + " Gwei" : "—",
                 icon: <Box className="h-5 w-5" />,
-                color: "text-[oklch(0.65_0.2_15)]",
+                color: C.lavender,
               },
             ].map((s) => (
               <div key={s.label} className="flex flex-col items-center gap-1.5">
-                <div className={`${s.color} mb-1 opacity-70`}>{s.icon}</div>
+                <div className="mb-1 opacity-60" style={{ color: s.color }}>
+                  {s.icon}
+                </div>
                 {loading ? (
-                  <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+                  <Loader2 className="h-5 w-5 animate-spin" style={{ color: C.lavender }} />
                 ) : (
                   <p
-                    className={`text-xl font-bold ${s.color}`}
-                    style={{ fontFamily: "var(--font-space-grotesk)" }}
+                    className="text-xl font-bold"
+                    style={{ fontFamily: "var(--font-space-grotesk)", color: s.color }}
                   >
                     {s.value}
                   </p>
                 )}
-                <p className="text-[11px] text-muted-foreground tracking-wide uppercase">
+                <p className="text-[11px] tracking-wide uppercase" style={{ color: C.lavender }}>
                   {s.label}
                 </p>
               </div>
@@ -479,10 +487,10 @@ export default function Home() {
 
       {/* ─── Footer ─── */}
       <footer className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/[0.06] pt-6">
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/[0.08] pt-6">
+          <div className="flex items-center gap-2 text-xs" style={{ color: C.lavender }}>
             <span
-              className="font-semibold text-foreground/60"
+              className="font-semibold text-white/60"
               style={{ fontFamily: "var(--font-space-grotesk)" }}
             >
               EthScan Lite
@@ -496,7 +504,8 @@ export default function Home() {
             href="https://github.com/RivaldiDev"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            className="flex items-center gap-1.5 text-xs hover:text-white transition-colors"
+            style={{ color: C.lavender }}
           >
             <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
               <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
