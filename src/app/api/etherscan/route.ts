@@ -15,12 +15,24 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const res = await fetch(url.toString(), {
-      next: { revalidate: 5 },
-    });
+    const res = await fetch(url.toString());
     const data = await res.json();
+
+    // Strip heavy input data from block transactions to reduce payload
+    if (
+      data?.result?.transactions &&
+      Array.isArray(data.result.transactions)
+    ) {
+      data.result.transactions = data.result.transactions.map(
+        (tx: Record<string, unknown>) => {
+          const { input, ...rest } = tx;
+          return rest;
+        }
+      );
+    }
+
     return NextResponse.json(data);
-  } catch (e) {
+  } catch {
     return NextResponse.json(
       { error: "Failed to fetch from Etherscan" },
       { status: 502 }

@@ -205,9 +205,10 @@ export default function Home() {
       const resolvedBlocks = await Promise.all(blockPromises);
       setBlocks(resolvedBlocks);
 
-      const latestBlockData = await fetchBlock(blockNum);
-      if (latestBlockData?.transactions?.length) {
-        const blockTxs: TxData[] = latestBlockData.transactions
+      // Re-fetch latest block raw data for transactions
+      const latestRaw = await fetchBlock(blockNum);
+      if (latestRaw?.transactions?.length) {
+        const blockTxs: TxData[] = latestRaw.transactions
           .slice(0, 6)
           .map((tx: { hash: string; from: string; to: string; value: string; blockNumber: string; gas: string; gasPrice: string; isError?: string }) => ({
             hash: tx.hash,
